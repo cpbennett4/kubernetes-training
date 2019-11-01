@@ -1,0 +1,94 @@
+apiVersion: extensions/v1beta1
+kind: Deployment
+metadata:
+  # informational annotations
+  annotations:
+    gitURL: https://github.com/opentable/service-demo.git
+    owner: mbell
+    slack: ask-platform
+    team: Arch
+# name of deployment
+  name: deployment-example
+  namespace: infra
+spec:
+  progressDeadlineSeconds: 600
+  replicas: 3
+  selector:
+    matchLabels:
+      app: deployment-demo
+  strategy:
+    rollingUpdate:
+      maxSurge: 25%
+      maxUnavailable: 25%
+    type: RollingUpdate
+  # This is the pod template
+    # notice how similar it is to the spec of pod-example
+  template:
+    metadata:
+      labels:
+        app: deployment-demo
+        preset: basic
+    spec:
+      enableServiceLinks: false
+      restartPolicy: Always
+      terminationGracePeriodSeconds: 60
+      # the list of containers. We have only one here
+      containers:
+        - name: demo-server
+          # docker image - NAME CHANGE - eg new release
+          image: docker.otenv.com/demo-server:demo-server-0.0.8-SNAPSHOT-20191101_180022_mbell
+          # ports to bind to container
+          # note two things
+          # a) they are named
+          # b) Because each pod gets a virtual ip, we can assign well known port numbers
+          # and not worry about conflicts, unlike under mesos
+          ports:
+            - containerPort: 8080
+              name: http
+              protocol: TCP
+            - containerPort: 8081
+              name: jmx
+              protocol: TCP
+          livenessProbe:
+            failureThreshold: 6
+            httpGet:
+              path: /infra/health
+              port: http
+              scheme: HTTP
+            initialDelaySeconds: 60
+            periodSeconds: 10
+            successThreshold: 1
+            timeoutSeconds: 3
+          readinessProbe:
+            failureThreshold: 3
+            httpGet:
+              path: /infra/ready
+              port: http
+              scheme: HTTP
+            initialDelaySeconds: 30
+            periodSeconds: 10
+            successThreshold: 1
+            timeoutSeconds: 3
+          env:
+            - name: ESTIMATED_INSTANCE_COUNT
+              value: "3"
+            - name: INSTANCE_NO
+              value: "1"
+            - name: K8S_SERVICE_NAME
+              value: service-demo
+            - name: OT_ENV_WHOLE
+              value: central-ci-sf
+            - name: PORT0
+              value: "8080"
+            - name: PORT_HTTP
+              value: "8080"
+            - name: PORT1
+              value: "8081"
+            - name: PORT_JMX
+              value: "8081"
+          volumeMounts:
+            - mountPath: /mnt/ot/sandbox
+              name: sandbox
+      volumes:
+        - emptyDir: {}
+          name: sandbox
