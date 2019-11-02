@@ -39,7 +39,5 @@ Docker itself has a built in single node kubernetes
 
 For Both
 ----
-* On a local box. this is still going to result in restarts. Take a look at pod-example for an idea of what to modify - noted in the comments
-
-
+* use the copies in local instead of their directories
 
