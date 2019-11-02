@@ -43,6 +43,16 @@ kubectl -n infra apply -f deployment-example-change-image.yaml
 
 # Now, deployment controllers contantly "watch" for changes, but what it is non obvious is how they identify their children,
 # look at the label selector.....
+kubectl apply -f deployment-example.yaml
+kubectl -n infra describe deployment deployment-example
+# what will happen if we launch another pod with a similar selector
+# current state
+kubectl -n infra get pods -l app=deployment-demo
+# now add a bare pod - demonstratinng they can also be adopted.. and cause fun
+kubectl apply -f cause-conflict.yaml
+kubectl -n infra get pods -l app=deployment-demo
+
 
 
 kubectl -n infra delete deployment deployment-example
+kubectl -n infra delete pod pod-example-conflict

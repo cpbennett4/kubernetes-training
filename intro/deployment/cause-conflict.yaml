@@ -6,84 +6,77 @@ metadata:
   # documentation is one
   # but also binding to a parent controller...
   labels:
-    app: pod-example
+    # Notice THIS! It will cause the replica set to adopt the pod
+    app: deployment-demo
+    pod-template-hash: 858bf896c6
     # activates the pod preset
     preset: basic
   # this is the name of the pod. All objects must be named
-  name: pod-example
+  name: pod-example-conflict
   # namespace pod will be launched in
   namespace: infra
 # Now the individual pod configuration
 spec:
-  enableServiceLinks: false
-  restartPolicy: Always
-  terminationGracePeriodSeconds: 60
-  # the list of containers. We have only one here
-  containers:
-    - name: demo-server
-      # docker image
-      image: docker.otenv.com/demo-server:demo-server-0.0.8-SNAPSHOT-20191101_162525_mbell
-      # ports to bind to container
-      # note two things
-      # a) they are named
-      # b) Because each pod gets a virtual ip, we can assign well known port numbers
-      # and not worry about conflicts, unlike under mesos
-      ports:
-        - containerPort: 8080
-          name: http
-          protocol: TCP
-        - containerPort: 8081
-          name: jmx
-          protocol: TCP
-      # Kubernetes has both soft and hard limit
-      resources:
-        requests:
-          cpu: 500m
-          memory: 768Mi
-        limits:
-          cpu: 500m
-          memory: 768Mi
-      livenessProbe:
-        failureThreshold: 6
-        httpGet:
-          path: /infra/health
-          # this uses the name of the port to bind
-          port: http
-          scheme: HTTP
-        initialDelaySeconds: 60
-        periodSeconds: 10
-        successThreshold: 1
-        timeoutSeconds: 3
-      readinessProbe:
-        failureThreshold: 3
-        httpGet:
-          path: /infra/ready
-          port: http
-          scheme: HTTP
-        initialDelaySeconds: 30
-        periodSeconds: 10
-        successThreshold: 1
-        timeoutSeconds: 3
-      env:
-        - name: ESTIMATED_INSTANCE_COUNT
-          value: "1"
-        - name: INSTANCE_NO
-          value: "1"
-        - name: K8S_SERVICE_NAME
-          value: service-demo
-        - name: OT_ENV_WHOLE
-          value: central-ci-sf
-        - name: PORT0
-          value: "8080"
-        - name: PORT_HTTP
-          value: "8080"
-        - name: PORT1
-          value: "8081"
-        - name: PORT_JMX
-          value: "8081"
-      volumeMounts:
-      - mountPath: /mnt/ot/sandbox
-        name: sandbox
-  volumes:
-  - emptyDir: {}
-    name: sandbox
+      enableServiceLinks: false
+      restartPolicy: Always
+      terminationGracePeriodSeconds: 60
+      # the list of containers. We have only one here
+      containers:
+        - name: demo-server
+          # docker image
+          image: docker.otenv.com/demo-server:demo-server-0.0.8-SNAPSHOT-20191101_162525_mbell
+          # ports to bind to container
+          # note two things
+          # a) they are named
+          # b) Because each pod gets a virtual ip, we can assign well known port numbers
+          # and not worry about conflicts, unlike under mesos
+          ports:
+            - containerPort: 8080
+              name: http
+              protocol: TCP
+            - containerPort: 8081
+              name: jmx
+              protocol: TCP
+          livenessProbe:
+            failureThreshold: 6
+            httpGet:
+              path: /infra/health
+              port: http
+              scheme: HTTP
+            initialDelaySeconds: 60
+            periodSeconds: 10
+            successThreshold: 1
+            timeoutSeconds: 3
+          readinessProbe:
+            failureThreshold: 3
+            httpGet:
+              path: /infra/ready
+              port: http
+              scheme: HTTP
+            initialDelaySeconds: 30
+            periodSeconds: 10
+            successThreshold: 1
+            timeoutSeconds: 3
+          env:
+            - name: ESTIMATED_INSTANCE_COUNT
+              value: "3"
+            - name: INSTANCE_NO
+              value: "1"
+            - name: K8S_SERVICE_NAME
+              value: service-demo
+            - name: OT_ENV_WHOLE
+              value: central-ci-sf
+            - name: PORT0
+              value: "8080"
+            - name: PORT_HTTP
+              value: "8080"
+            - name: PORT1
+              value: "8081"
+            - name: PORT_JMX
+              value: "8081"
+          volumeMounts:
+            - mountPath: /mnt/ot/sandbox
+              name: sandbox
+      volumes:
+        - emptyDir: {}
+          name: sandbox
