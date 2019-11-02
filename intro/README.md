@@ -13,3 +13,4 @@ You can install these using brew
 (Watch for link conflicts with docker and fix them)
 * `brew install minikube`
 * minikube start
+* kubectl create ns infra
