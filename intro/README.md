@@ -12,5 +12,5 @@ You can install these using brew
 * `brew install kubectl`
 (Watch for link conflicts with docker and fix them)
 * `brew install minikube`
-* minikube start
-* kubectl create ns infra
+* `minikube start --kubernetes-version v1.15.2`
+* `kubectl create ns infra`
