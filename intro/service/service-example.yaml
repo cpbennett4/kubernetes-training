@@ -1,0 +1,25 @@
+apiVersion: v1
+kind: Service
+metadata:
+  annotations:
+    gitURL: https://github.com/opentable/service-demo.git
+    owner: ltahmazyaan
+    slack: ask-platform
+    team: Arch
+  name: service-example
+  namespace: infra
+spec:
+  ports:
+    - name: http
+      # If I access the service on port 80...
+      port: 80
+      protocol: TCP
+      # forward to the Pod's port 8080
+      targetPort: 8080
+    - name: jmx
+      port: 443
+      protocol: TCP
+      targetPort: 8081
+  selector:
+    app: deployment-demo
+  type: ClusterIP

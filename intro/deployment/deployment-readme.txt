@@ -23,11 +23,10 @@ kubectl -n infra get rs
 # deployment-example-858bf896c6
 # kubectl -n infra describe rs deployment-example-858bf896c6
 
-# scale up
+# scale up to 6
 kubectl -n infra apply -f deployment-example-with-more-replicas.yaml
-# look at deployment, podprefix
+# look at deployment, podprefix - they stayed the same
 # change image... watch a rolling deploy
-
 kubectl -n infra apply -f deployment-example-change-image.yaml
 # initially...
 #Normal  ScalingReplicaSet  13m    deployment-controller  Scaled up replica set deployment-example-858bf896c6 to 3
@@ -41,5 +40,9 @@ kubectl -n infra apply -f deployment-example-change-image.yaml
 #  Normal  ScalingReplicaSet  101s   deployment-controller  Scaled down replica set deployment-example-858bf896c6 to 1
 #  Normal  ScalingReplicaSet  101s   deployment-controller  Scaled up replica set deployment-example-6b67f989d to 3
 #  Normal  ScalingReplicaSet  66s    deployment-controller  Scaled down replica set deployment-example-858bf896c6 to 0
+
+# Now, deployment controllers contantly "watch" for changes, but what it is non obvious is how they identify their children,
+# look at the label selector.....
+
 
 kubectl -n infra delete deployment deployment-example
