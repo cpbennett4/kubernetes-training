@@ -18,10 +18,11 @@ kubectl -n infra get deployment deployment-example
 
 kubectl -n infra describe deployment deployment-example
 
-kubectl -n infra get rs
-
+# Kubernetes deployment actually created a deployment, replicaset, and pods
+# You've seen the pods above....
+NAME=`kubectl -n infra get replicaset -l app=deployment-demo -o=name`
 # deployment-example-858bf896c6
-# kubectl -n infra describe rs deployment-example-858bf896c6
+# kubectl -n infra describe $NAME
 
 # scale up to 6
 kubectl -n infra apply -f deployment-example-with-more-replicas.yaml
@@ -51,8 +52,9 @@ kubectl -n infra get pods -l app=deployment-demo
 # now add a bare pod - demonstratinng they can also be adopted.. and cause fun
 kubectl apply -f cause-conflict.yaml
 kubectl -n infra get pods -l app=deployment-demo
+# deployments use a label they add dynamically pod-template-hash: 858bf896c6 to avoid conflicts
+# but you can easily cause this conflict at a Bad Time
 
-
-
+# cleanup
 kubectl -n infra delete deployment deployment-example
 kubectl -n infra delete pod pod-example-conflict
