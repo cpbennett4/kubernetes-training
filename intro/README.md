@@ -36,5 +36,9 @@ Docker itself has a built in single node kubernetes
 * Go to the docker icon/kubernetes and select the docker in the pull down menu
 * `kubectl create ns infra`
 
+For Both
+----
+* Once you create the namespace infra,  go to the pod directory and follow the readme.
+
 
 
