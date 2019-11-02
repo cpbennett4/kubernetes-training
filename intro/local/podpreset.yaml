@@ -1,0 +1,35 @@
+---
+
+apiVersion: v1
+kind: Namespace
+metadata:
+  name: infra
+
+---
+
+# Emulate pod preset 
+# Each yaml must be modified to inject thhis
+# see the commented out lines for envFrom in pod-example as a guidelin
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: sample-map
+  namespace: infra
+data:
+  OT_ENV: ci-sf
+  OT_ENV_LOCATION: sf
+  OT_ENV_TYPE: ci
+  IS_KUBERNETES: "true"
+  MESOS_SANDBOX: /mnt/ot/sandbox
+  ot.announce.enabled: "false"
+  ot.jmx.enabled: "false"
+  OT_ENV_SHORT: ci-sf
+  K8S_CLUSTER_NAME: local-ci-sf
+  K8S_NAMESPACE: infra
+  K8S_INGRESS_URL: http://local-central-ci-sf.otenv.com
+  K8S_TRAMPOLINE_URL: http://trampoline.infra
+  TASK_ID: fake-task-id
+  TASK_DEPLOY_ID: fake-deploy-id
+  TASK_REQUEST_ID: fake-request-id
+---
+ 

@@ -1,10 +1,11 @@
 Corresponds to the brown bag/course "Introduction to Kubernetes"
 * Slides: https://docs.google.com/presentation/d/1_VfudUT3OlX36bZPGEwqYVU2fHY6SPvqA_zcbSePbCo
 
-Prerequisites for trying out:
+Prerequisites for trying out locally:
 
 * Access to a cluster
 * kubectl
+* Some patience, since not all these files have been converted properly
 
 There are two easy ways to install a single node test cluster on your laptop. Normally I recommend minikube, but it has been ... problematic lately ...
 
@@ -20,7 +21,7 @@ Option I: Minikube
 We are giving some cpu and memory headway so we can launch some deployments here of some size
 We are pinning the kubernetes version for reproducibility
 
-* `kubectl create ns infra`
+* `kubectl apply -f local/podpreset.yaml`
 
 this is needed for examples
 
@@ -34,11 +35,11 @@ Docker itself has a built in single node kubernetes
 * Go to the docker icon, preferences, and select kubernetes. Turn on the cluster.
 * Wait....till it is running
 * Go to the docker icon/kubernetes and select the docker in the pull down menu
-* `kubectl create ns infra`
+* `kubectl apply -f local/podpreset.yaml`
 
 For Both
 ----
-* Once you create the namespace infra,  go to the pod directory and follow the readme.
+* On a local box. this is still going to result in restarts. Take a look at pod-example for an idea of what to modify - noted in the comments
 
 
 

@@ -23,7 +23,6 @@ kubectl -n infra exec -it pod-example -- /bin/bash
 curl -H "X-Hello:Kubernetes"  http://127.0.0.1:8080/debug
 
 # notice killing it restarts
-
 exit
 
 # discuss limitations of pods
