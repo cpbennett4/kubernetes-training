@@ -1,0 +1,76 @@
+apiVersion: settings.k8s.io/v1alpha1
+kind: PodPreset
+metadata:
+  labels:
+    owner: sp_team
+  name: ot-env
+  namespace: infra
+spec:
+  env:
+  - name: OT_ENV
+    value: ci-sf
+  - name: OT_ENV_LOCATION
+    value: sf
+  - name: OT_ENV_TYPE
+    value: ci
+  - name: OT_ENV_SHORT
+    value: ci-sf
+  - name: MESOS_SANDBOX
+    value: /mnt/ot/sandbox
+  - name: OT_DISCO_INIT_URL
+    value: http://discovery-ci-sf.otenv.com
+  - name: IS_KUBERNETES
+    value: "true"
+  - name: K8S_CLUSTER_NAME
+    value: central-ci-sf
+  - name: K8S_POD_IP
+    valueFrom:
+      fieldRef:
+        apiVersion: v1
+        fieldPath: status.podIP
+  - name: K8S_POD_NAME
+    valueFrom:
+      fieldRef:
+        apiVersion: v1
+        fieldPath: metadata.name
+  - name: K8S_NODE_HOST
+    valueFrom:
+      fieldRef:
+        apiVersion: v1
+        fieldPath: spec.nodeName
+  - name: K8S_NODE_IP
+    valueFrom:
+      fieldRef:
+        apiVersion: v1
+        fieldPath: status.hostIP
+  - name: TASK_HOST
+    valueFrom:
+      fieldRef:
+        apiVersion: v1
+        fieldPath: status.hostIP
+  - name: K8S_NAMESPACE
+    valueFrom:
+      fieldRef:
+        apiVersion: v1
+        fieldPath: metadata.namespace
+  - name: K8S_SERVICE_ACCOUNT
+    valueFrom:
+      fieldRef:
+        apiVersion: v1
+        fieldPath: spec.serviceAccountName
+  - name: K8S_POD_ID
+    valueFrom:
+      fieldRef:
+        apiVersion: v1
+        fieldPath: metadata.uid
+  - name: K8S_INGRESS_URL
+    value: http://ingress-central-ci-sf.otenv.com
+  - name: K8S_TRAMPOLINE_URL
+    value: http://trampoline.infra
+  selector: {}
+  volumeMounts:
+  - mountPath: /mnt/ot/sandbox
+    name: sandbox
+  volumes:
+  - emptyDir: {}
+    name: sandbox

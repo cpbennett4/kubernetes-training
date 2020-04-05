@@ -82,6 +82,8 @@ spec:
           value: "8080"
         - name: PORT1
           value: "8081"
+        - name: ot.announce.enabled
+          value: "false"
         - name: PORT_JMX
           value: "8081"
       volumeMounts:

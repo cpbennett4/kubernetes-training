@@ -1,0 +1,85 @@
+Prop I:
+
+Declare your ingress URL directly
+
+http://ingress-arch-prod-sc.otenv.com/via-ingress/oauth
+
+Application changes it consumption appropriately
+
+Cons: 
+- by itself doesn't solve disco consumer issue
+- location transparency very poor
+- no worse than current system, but still crappy
+
+
+PropI':
+
+Same but add disco static announcement to fd-external
+
+Removes one con
+
+
+Prop II:
+
+Use CNAMES
+
+
+http://oauth.otenv.com
+---> http://oauth-prod-sc.otenv.com
+---> frontdoor-external.otenv.com || lis
+
+Pro:
+- works both for outside (eg singularity, outside world) consumers  and inside consumers.
+- More flexible - cname can be indirect record pointer, so location transparent
+- we have a process and config system!
+
+Con:
+- Hard to track usage and kill off
+
+Prop III
+
+Service: <serviceName>
+single pod
+
+nginx:
+
+-  ${K8S_SERVICE_NAME}, ${DISCO_SERVICE_TYPE}
+
+Take a call 
+
+/* => http(s)://ingress-arch-prod-sc.otenv.com/via-ingress/oauth
+
+- Use a small nginx proxy helm chart  launched by the application service  team
+- standardized format.
+- Creates service in ot namespace so...
+- have flag to indicate "announce to disco too" - covering disco.
+
+Pros:
+- pretty easy to update
+-  Easy, standardized, transparent post.
+- Internal DNS created correctly etc.
+- reversal of roles - consumer is responsible!
+
+Cons:
+- Jenky extra stubs everywhere.
+- Tricky to clean up, though  access  logs will help
+-- TLS issue
+
+
+
+PROTOCOL=https, PATH=/book/*,     HOST=(m|www|secure).opentable.*           passthru       booking-flow
+
+
+---> PROTOCOL=https, PATH=/book/*,     HOST=(m|www|secure).opentable.*           redirect http://ingress-arch-prod-sc.otenv.com/via-ingress/oauth
+
+option I, easy but a bit error  prone
+
+
+---> PROTOCOL=https, PATH=/book/*,     HOST=(m|www|secure).opentable.*           k8s   cluster=arch-prod-sc, service=oauth
+---> PROTOCOL=https, PATH=/book/*,     HOST=(m|www|secure).opentable.*           k8s   booking-flow
+
+
+
+1. Service is happy and ready to stop announcing to disco
+2. Service owner changes the PASSTHRU ==> k8s rule
+3. Service stops announcing
