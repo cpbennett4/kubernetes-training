@@ -23,6 +23,7 @@ This is the better more fully featured option. Some people have trouble getting 
 We are giving some cpu and memory headway so we can launch some deployments here of some size
 We are pinning the kubernetes version for reproducibility
 
+* `kubectl create ns infra`
 * `kubectl apply -f local/minikube/podpreset.yaml`
 
 this is needed for examples
@@ -38,6 +39,7 @@ to be more behind the times on the Kubernetes version, and it doesn't support po
 * Go to the docker icon, preferences, and select kubernetes. Turn on the cluster.
 * Wait....till it is running
 * Go to the docker icon/kubernetes and select the docker in the pull down menu
+* `kubectl create ns infra`
 * `kubectl apply -f local/docker/podpreset.yaml`
 
 For Docker
