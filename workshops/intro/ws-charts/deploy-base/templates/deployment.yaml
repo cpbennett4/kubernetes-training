@@ -52,7 +52,9 @@ spec:
           - name: OT_BUILD_TAG
             value: {{ required ".Values.image.tag is required" .Values.image.tag | quote }}
           - name: K8S_SERVICE_NAME
-            value: {{ .Release.Name }}
+            value: {{ .Release.Name | quote }}
+          - name: ot.announce.service-type
+            value: {{ .Release.Name | quote }}
           {{- if not .Values.readiness.optOut }}
           - name: READINESS_PROBE
             value: "true"

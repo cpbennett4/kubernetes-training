@@ -16,5 +16,8 @@ resourcesReq:
   memory: 1000Mi
   cpu: 500m
 
+env:
+  ot.announce.enabled: false
+
 replicaCount: 3
 

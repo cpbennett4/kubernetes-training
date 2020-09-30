@@ -12,6 +12,9 @@ ports:
   - jmx
   - actuator
 
+env:
+  ot.announce.enabled: false
+
 resourcesReq:
   memory: 1000Mi
   cpu: 500m
