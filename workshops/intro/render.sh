@@ -23,5 +23,5 @@ values=$2
 chart=$3
 
 # validate all 3 and existence of values and chart
-echo $release ... $values .... $chart
+echo $release ... $values .... $chart 1>&2
 helm template $release ws-charts/$chart -f $values --set namespace=$name

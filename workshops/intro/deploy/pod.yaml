@@ -13,7 +13,7 @@ ports:
   - actuator
 
 env:
-  ot.announce.enabled: false
+  ot.announce.enabled: "false"
 
 resourcesReq:
   memory: 1000Mi

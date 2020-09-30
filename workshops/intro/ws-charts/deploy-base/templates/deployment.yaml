@@ -63,6 +63,12 @@ spec:
 {{- with .Values.ports }}
 {{- template "deployment.envports" .}}
 {{- end }}
+{{- if .Values.env }}
+{{- range $name, $value := .Values.env }}
+          - name: {{ $name }}
+            value: {{ $value | default "" | quote }}
+{{- end }}
+{{- end -}}
 {{- /* PORTS from values */}}
 {{- with .Values.ports }}
           ports:

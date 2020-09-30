@@ -17,7 +17,7 @@ resourcesReq:
   cpu: 500m
 
 env:
-  ot.announce.enabled: false
+  ot.announce.enabled: "false"
 
 replicaCount: 3
 
