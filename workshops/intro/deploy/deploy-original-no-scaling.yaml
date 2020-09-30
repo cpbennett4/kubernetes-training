@@ -4,8 +4,8 @@ otmetaComponent: myOpentableService
 #namespace: consumer
 image:
   registry: docker.otenv.com
-  repository: demo-server
-  tag: demo-tag
+  repository: k8s-training
+  tag: demo-server
 
 ports:
   - http
