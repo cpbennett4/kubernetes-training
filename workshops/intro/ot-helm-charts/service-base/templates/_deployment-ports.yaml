@@ -1,0 +1,63 @@
+{{- define "deployment.envports"}}
+{{- range $idx, $port := . }}
+  {{- if eq (printf "%T" .) "string" }}
+    {{- if eq . "http"}}
+          - name: PORT{{$idx}}
+            value: "8080"
+          - name: PORT_{{ . | upper }}
+            value: "8080"
+    {{- else if eq . "https" }}
+          - name: PORT{{$idx}}
+            value: "8081"
+          - name: PORT_{{ . | upper }}
+            value: "8081"
+    {{- else if eq . "jmx" }}
+          - name: PORT{{$idx}}
+            value: "9010"
+          - name: PORT_{{ . | upper }}
+            value: "9010"
+    {{- else if eq . "actuator" }}
+          - name: PORT{{$idx}}
+            value: "9999"
+          - name: PORT_{{ . | upper }}
+            value: "9999"
+    {{- else if eq . "jpda" }}
+          - name: PORT{{$idx}}
+            value: "5005"
+          - name: PORT_{{ . | upper }}
+            value: "5005"
+    {{- end }}
+  {{- else}}
+          - name: PORT{{$idx}}
+            value: {{ $port.containerPort | quote }}
+          - name: PORT_{{ $port.name | upper }}
+            value: {{ $port.containerPort | quote }}
+  {{- end }}
+{{- end }}
+{{- end}}
+
+{{- define "deployment.ports"}}
+  {{- range . }}
+    {{- if eq (printf "%T" .) "string" }}
+      {{- if eq . "http"}}
+          - name: {{ . }}
+            containerPort: 8080
+      {{- else if eq . "https" }}
+          - name: {{ . }}
+            containerPort: 8081
+      {{- else if eq . "jmx" }}
+          - name: {{ . }}
+            containerPort: 9010
+      {{- else if eq . "actuator" }}
+          - name: {{ . }}
+            containerPort: 9999
+      {{- else if eq . "jpda" }}
+          - name: {{ . }}
+            containerPort: 5005
+      {{- end }}
+    {{- else}}
+          - name: {{ .name }}
+            containerPort: {{ .containerPort }}
+    {{- end }}
+  {{- end }}
+{{- end}}

@@ -1,0 +1,15 @@
+{{ if and (.Values.ports) (not (hasKey .Values "canary")) }}
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: {{ .Release.Name }}
+  namespace: {{ required "namespace required" .Values.namespace }}
+  labels:
+    app: {{ .Release.Name }}
+    needs-externalname: {{ .Values.needsExternalName | default "yes" | quote }}
+spec:
+  selector:
+    app: {{ .Release.Name }}
+  {{- template "service-clusterip.spec" . }}
+{{- end }}

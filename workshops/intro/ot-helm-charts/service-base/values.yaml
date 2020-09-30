@@ -1,0 +1,60 @@
+# This file is a set of defaults which comes with the chart.
+# Find more details in values-example.yaml
+# Startup is a startup check similar to Singularity. It runs and passes once at startup
+# after which the readiness and liveness probes if any are run
+# Initial probe occurs after 10 seconds, and then is repeated every second for 50 more seconds
+startup:
+  optOut: false
+  path: /infra/health
+  port: 8080
+  period: 1
+  initDelay: 10
+  failureThreshold: 50
+  successThreshold: 1
+
+# Liveness check is a periodic healthcheck which restarts the pod if fails. We have this off by default
+# but it may be useful to some service owners
+liveness:
+  optOut: true
+  path: /infra/live
+  port: 8080
+  period: 10
+  initDelay: 60
+  failureThreshold: 6
+  successThreshold: 1
+
+# Readiness is a startup check before the service is ready to handle traffic
+# This is a new concept in Kubernetes and we recommend using it
+readiness:
+  optOut: false
+  path: /infra/ready
+  port: 8080
+  period: 1
+  initDelay: 0
+  failureThreshold: 1
+  successThreshold: 1
+
+# whether to use the sandbox
+sandbox:
+  enabled: true
+  image: docker.otenv.com/ot-sandbox:1.0.3
+
+# Whether to enable credentials management, and in addition the Service Account for it
+credentialsManagement:
+  enabled: false
+  skipServiceAccountCreation: false
+
+# default requests. These are also copied to requestLim (hard limit) if requestLim is not supplied.
+resourcesReq:
+  memory: 128Mi
+  cpu: 100m
+
+# whether to use the preflight initContainer
+preflight:
+  enabled: true
+
+maxUnavailable: 1
+maxSurge: "50%"
+
+image:
+  foo: bar
