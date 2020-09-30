@@ -16,15 +16,13 @@ spec:
   # here's the jobs that will be spawned
   jobTemplate:
     spec:
-      backoffLimit: 5
+      backoffLimit: 1
+      # roughly the equivalent of replicaCount
       parallelism: 1
-      #both of the next two should probably be exposed.
+      # how long a job is allowed to run before force killing
       activeDeadlineSeconds: 3600
+      # clean up of old finished jobs
       ttlSecondsAfterFinished: 86400
-      #backoffLimit:
-      #manualSelector:
-      #parallelism:
-      #completions
       template:
         spec:
           containers:
@@ -37,5 +35,4 @@ spec:
                 limits:
                   cpu: "500m"
                   memory: "1000Mi"
-          # discuss
           restartPolicy: Never
