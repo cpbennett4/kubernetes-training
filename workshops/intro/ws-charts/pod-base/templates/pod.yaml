@@ -3,7 +3,7 @@ apiVersion: v1
 kind: Pod
 metadata:
   name: {{ .Release.Name }}
-  namespace: {{ required "namespace required" .Values.namespace }}
+  namespace: ws-{{ required "namespace required" .Values.namespace }}
   labels:
     app: {{ .Release.Name }}
     otmetaComponent: {{ required ".Values.otmetaComponent required" .Values.otmetaComponent }}

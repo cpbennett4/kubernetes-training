@@ -4,7 +4,7 @@ apiVersion: v1
 kind: Service
 metadata:
   name: {{ .Release.Name }}
-  namespace: {{ required "namespace required" .Values.namespace }}
+  namespace: ws-{{ required "namespace required" .Values.namespace }}
   labels:
     app: {{ .Release.Name }}
     needs-externalname: {{ .Values.needsExternalName | default "yes" | quote }}
