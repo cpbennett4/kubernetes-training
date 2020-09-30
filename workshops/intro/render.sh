@@ -11,8 +11,8 @@ if ! [[ -x "$(command -v kubectl)" ]]; then
 	exit 1
 fi
 
-name=${whoami}
-if [[ -z ${name }]]; then
+name=$(whoami)
+if [[ -z ${name} ]]; then
   echo "No name provided"
   exit 1
 fi
@@ -23,5 +23,5 @@ values=$2
 chart=$3
 
 # validate all 3 and existence of values and chart
-
-helm template $release $chart -f $values --set namespace=$name
+echo $release ... $values .... $chart
+helm template $release ws-charts/$chart -f $values --set namespace=$name

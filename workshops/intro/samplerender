@@ -1,1 +1,0 @@
-helm template mike ot-helm-charts/service-base --set namespace=namespace --set replicaCount=3 --set image.tag=foo --set image.repository=repo
