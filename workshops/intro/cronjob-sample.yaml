@@ -1,0 +1,41 @@
+apiVersion: batch/v1beta1
+kind: CronJob
+metadata:
+  namespace: me-no-work-um
+  name: manual-scheduled-test
+spec:
+  #every 3 minutes
+  schedule: "*/3 * * * *"
+  # discuss, should be editable
+  concurrencyPolicy: Forbid
+  # just how will we pause jobs. Note there's some scary logic here.
+  suspend: false
+  successfulJobsHistoryLimit: 10
+  failedJobsHistoryLimit: 10
+  #startingDeadlineSeconds:
+  # here's the jobs that will be spawned
+  jobTemplate:
+    spec:
+      backoffLimit: 5
+      parallelism: 1
+      #both of the next two should probably be exposed.
+      activeDeadlineSeconds: 3600
+      ttlSecondsAfterFinished: 86400
+      #backoffLimit:
+      #manualSelector:
+      #parallelism:
+      #completions
+      template:
+        spec:
+          containers:
+            - name: manual-scheduled-test
+              image: docker.otenv.com/scheduled-service-test:scheduled-service--test-1.0.1
+              resources:
+                requests:
+                  cpu: "500m"
+                  memory: "1000Mi"
+                limits:
+                  cpu: "500m"
+                  memory: "1000Mi"
+          # discuss
+          restartPolicy: Never

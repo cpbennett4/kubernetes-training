@@ -12,13 +12,8 @@ metadata:
 spec:
   replicas: {{ required ".Values.replicaCount required" .Values.replicaCount }}
   selector:
-    matchExpressions:
-    - key: app
-      operator: In
-      values:
-      - {{ .Release.Name }}
-    - key: canary
-      operator: DoesNotExist
+    matchLabels:
+      app: {{ .Release.Name }}
   strategy:
     rollingUpdate:
       maxSurge: {{ .Values.maxSurge | default "50%" }}

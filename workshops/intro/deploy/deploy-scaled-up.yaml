@@ -16,5 +16,5 @@ resourcesReq:
   memory: 1000Mi
   cpu: 500m
 
-replicaCount: 2
+replicaCount: 3
 
