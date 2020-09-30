@@ -6,8 +6,9 @@ metadata:
   namespace: {{ required "namespace required" .Values.namespace }}
   labels:
     app: {{ .Release.Name }}
+    otmetaComponent: {{ required ".Values.otmetaComponent required" .Values.otmetaComponent }}
     preset: "basic"
-    needs-instance-no: {{ .Values.needsInstanceNo | default "yes" | quote }}
+    needs-instance-no: "yes"
 spec:
   replicas: {{ required ".Values.replicaCount required" .Values.replicaCount }}
   selector:
@@ -32,8 +33,9 @@ spec:
         app.kubernetes.io/version: {{ required ".Values.image.tag is required " .Values.image.tag | quote }}
         deployed: {{ date "20060102150405" now   | quote }}
       labels:
+        otmetaComponent: {{ required ".Values.otmetaComponent required" .Values.otmetaComponent }}
         preset: "basic"
-        needs-instance-no: {{ .Values.needsInstanceNo | default "yes" | quote }}
+        needs-instance-no: "yes"
         app: {{ .Release.Name }}
     spec:
       securityContext:

@@ -6,8 +6,9 @@ metadata:
   namespace: {{ required "namespace required" .Values.namespace }}
   labels:
     app: {{ .Release.Name }}
+    otmetaComponent: {{ required ".Values.otmetaComponent required" .Values.otmetaComponent }}
     preset: "basic"
-    needs-instance-no: {{ .Values.needsInstanceNo | default "yes" | quote }}
+    needs-instance-no: "yes"
 spec:
   securityContext:
     runAsUser: 3000
