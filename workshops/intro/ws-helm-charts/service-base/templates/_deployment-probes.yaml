@@ -1,0 +1,36 @@
+{{- define "deployment.probes"}}
+{{- /* PROBES */}}
+{{- if not .Values.liveness.optOut }}
+          livenessProbe:
+            httpGet:
+              path: {{ .Values.liveness.path | default "/infra/live" }}
+              port: {{ .Values.liveness.port | default 8080 }}
+            periodSeconds: {{ .Values.liveness.period | default 10 }}
+            initialDelaySeconds: {{ .Values.liveness.initDelay | default 60 }}
+            successThreshold: {{ .Values.liveness.successThreshold | default 1 }}
+            failureThreshold: {{ .Values.liveness.failureThreshold | default 6 }}
+            timeoutSeconds: {{ .Values.liveness.timeoutSeconds | default 3 }}
+{{- end }}
+{{- if not .Values.startup.optOut }}
+          startupProbe:
+            httpGet:
+              path: {{ .Values.startup.path | default "/infra/health" }}
+              port: {{ .Values.startup.port | default 8080 }}
+            periodSeconds: {{ .Values.startup.period | default 1 }}
+            initialDelaySeconds: {{ .Values.startup.initDelay | default 10 }}
+            successThreshold: {{ .Values.startup.successThreshold | default 1 }}
+            failureThreshold: {{ .Values.startup.failureThreshold | default 50 }}
+            timeoutSeconds: {{ .Values.startup.timeoutSeconds | default 3 }}
+{{- end }}
+{{- if not .Values.readiness.optOut }}
+          readinessProbe:
+            httpGet:
+              path: {{ .Values.readiness.path | default "/infra/ready" }}
+              port: {{ .Values.readiness.port | default 8080 }}
+            periodSeconds: {{ .Values.readiness.period | default 1 }}
+            initialDelaySeconds: {{ .Values.readiness.initDelay | default 0 }}
+            successThreshold: {{ .Values.readiness.successThreshold | default 1 }}
+            failureThreshold: {{ .Values.readiness.failureThreshold | default 1 }}
+            timeoutSeconds: {{ .Values.readiness.timeoutSeconds | default 3 }}
+{{- end -}}
+{{- end}}

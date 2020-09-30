@@ -1,0 +1,62 @@
+---
+apiVersion: v1
+kind: Pod
+metadata:
+  name: {{ .Release.Name }}
+  namespace: {{ required "namespace required" .Values.namespace }}
+  labels:
+    app: {{ .Release.Name }}
+    preset: "basic"
+    needs-instance-no: {{ .Values.needsInstanceNo | default "yes" | quote }}
+spec:
+  securityContext:
+    runAsUser: 3000
+  terminationGracePeriodSeconds: {{ .Values.terminationGracePeriodSeconds | default 60 }}
+  restartPolicy: {{ .Values.restartPolicy | default "Always" }}
+  enableServiceLinks: false
+  containers:
+    - name: {{ required ".Values.image.repository is required" .Values.image.repository | quote }}
+      image: '{{ default "docker.otenv.com" .Values.image.registry}}/{{ required ".Values.image.repository is required" .Values.image.repository }}:{{ required ".Values.image.tag is required" .Values.image.tag }}'
+      imagePullPolicy: {{ default "Always" .Values.image.pullPolicy }}
+
+{{- /* ENV variables */}}
+      env:
+        - name: ESTIMATED_INSTANCE_COUNT
+          value: {{ .Values.replicaCount | quote }}
+        - name: OT_BUILD_IMAGE
+          value: {{ default "docker.otenv.com" .Values.image.registry}}/{{ required ".Values.image.repository is required" .Values.image.repository }}
+        - name: OT_BUILD_TAG
+          value: {{ required ".Values.image.tag is required" .Values.image.tag | quote }}
+        - name: K8S_SERVICE_NAME
+          value: {{ .Release.Name }}
+        {{- if not .Values.readiness.optOut }}
+        - name: READINESS_PROBE
+          value: "true"
+        {{- end }}
+{{- /* PORT_$NAME in ENV */}}
+{{- with .Values.ports }}
+{{- template "deployment.envports" .}}
+{{- end }}
+{{- /* PORTS from values */}}
+{{- with .Values.ports }}
+      ports:
+{{- template "deployment.ports" .}}
+{{- end -}}
+
+{{- /* PROBES */}}
+{{- template  "deployment.probes".}}
+
+{{- /* CPU and MEMORY reqest/limit */}}
+      resources:
+        requests:
+          memory: {{ .Values.resourcesReq.memory | default "128Mi" }}
+          cpu: {{ .Values.resourcesReq.cpu | default "100m" }}
+{{- if .Values.resourcesLim }}
+        limits:
+          memory: {{ .Values.resourcesLim.memory | default "128Mi" }}
+          cpu: {{ .Values.resourcesLim.cpu | default "100m" }}
+{{- else }}
+        limits:
+          memory: {{ .Values.resourcesReq.memory | default "512Mi" }}
+          cpu: {{ .Values.resourcesReq.cpu | default "100m" }}
+{{- end -}}
