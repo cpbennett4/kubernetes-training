@@ -3,7 +3,6 @@ otmetaComponent: myOpentableService
 # we override this for this demo
 namespace: consumer
 image:
-  registry: docker.otenv.com
   repository: k8s-training
   tag: demo-server
 
