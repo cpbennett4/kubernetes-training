@@ -1,0 +1,19 @@
+The basic syntax is:
+
+kubectl -n namespace port-forward pod-name localPort:destPort
+
+So for example if my name is mbell, and I've launched our friend the sample deployment
+
+kubectl -n ws-mbell port-forward pod-name 8080:8080
+
+Would allow you to curl http://127.0.0.1:8080/debug
+
+on the pod.
+
+Try also
+
+kubectl -n ws-mbell port-forward pod-name 1234:1234
+
+and open your web browser at http://127.0.0.1:1234
+
+what do you see?
