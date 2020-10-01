@@ -7,7 +7,7 @@ if ! [[ -x "$(command -v helm)" ]]; then
 fi
 
 if ! [[ -x "$(command -v kubectl)" ]]; then
-	echo "error" "Install kubectl please" 1>&2
+	echo "Install kubectl please" 1>&2
 	exit 1
 fi
 
