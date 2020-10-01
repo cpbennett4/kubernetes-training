@@ -6,6 +6,7 @@ image:
   repository: k8s-training
   tag: demo-server
 
+# C#/node people need just http, but java services should use these settings normally
 ports:
   - http
   - jmx

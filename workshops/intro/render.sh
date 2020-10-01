@@ -44,4 +44,4 @@ if [[ ! -d "ws-charts/$chart" ]]; then
 fi
 # validate all 3 and existence of values and chart
 echo rendering using: releasename=$release ... valuesloc=$values ... chart=$chart.. namespace=ws-$name 1>&2
-helm template $release ws-charts/$chart -f $values --set namespace=$name
+helm template $release ws-charts/$chart -f $values --set namespace=$name --set needsExternalName=no
