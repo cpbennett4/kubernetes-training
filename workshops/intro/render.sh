@@ -42,6 +42,20 @@ if [[ ! -d "ws-charts/$chart" ]]; then
   echo "chart file ws-charts/$chart doesn't exist " 1>&2
   exit 1
 fi
+
+ns=ws-$name
+# test for pod-preset
+PODPRESET=0
+if [[ "$PODPRESET" == "1" ]]; then
+  TEST=$(kubectl -n $ns get podpreset ot-env)
+  if [[ "$?" == "1" ]]; then
+    echo "Creating podpreset"  1>&2
+    ws-charts/podpreset.sh > podpreset.yaml
+    kubectl apply -f podpreset.yaml 1>&2
+    rm podpreset.yaml
+  fi
+fi
+
 # validate all 3 and existence of values and chart
 echo rendering using: releasename=$release ... valuesloc=$values ... chart=$chart.. namespace=ws-$name 1>&2
 helm template $release ws-charts/$chart -f $values --set namespace=$name --set needsExternalName=no
