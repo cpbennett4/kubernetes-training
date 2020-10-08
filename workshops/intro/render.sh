@@ -16,6 +16,11 @@ if [[ -z ${name} ]]; then
   echo "No name provided - whoami didnt work."  1>&2
   exit 1
 fi
+# emergency override
+if [[ -f "~/.workshop" ]]; then
+  name=$(cat ~/.workshop)
+fi
+echo "Welcome name = $name" 1>&2
 
 release=$1
 values=$2
@@ -45,11 +50,11 @@ fi
 
 ns=ws-$name
 # test for pod-preset
-PODPRESET=0
+PODPRESET=1
 if [[ "$PODPRESET" == "1" ]]; then
   TEST=$(kubectl -n $ns get podpreset ot-env)
   if [[ "$?" == "1" ]]; then
-    echo "Creating podpreset"  1>&2
+    echo "Creating pod preset"  1>&2
     ws-charts/podpreset.sh > podpreset.yaml
     kubectl apply -f podpreset.yaml 1>&2
     rm podpreset.yaml
