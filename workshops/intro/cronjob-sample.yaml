@@ -1,6 +1,7 @@
 apiVersion: batch/v1beta1
 kind: CronJob
 metadata:
+  # don't run me, I will deliberately fail horribly
   namespace: me-no-work-um
   name: manual-scheduled-test
 spec:
@@ -27,7 +28,7 @@ spec:
         spec:
           containers:
             - name: manual-scheduled-test
-              image: docker.otenv.com/scheduled-service-test:scheduled-service-test-1.0.1
+              image: docker.otenv.com/scheduled-service-test:scheduled-service--test-1.0.1
               resources:
                 requests:
                   cpu: "500m"
