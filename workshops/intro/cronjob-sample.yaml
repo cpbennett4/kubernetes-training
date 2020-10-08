@@ -27,7 +27,7 @@ spec:
         spec:
           containers:
             - name: manual-scheduled-test
-              image: docker.otenv.com/scheduled-service-test:scheduled-service--test-1.0.1
+              image: docker.otenv.com/scheduled-service-test:scheduled-service-test-1.0.1
               resources:
                 requests:
                   cpu: "500m"
