@@ -1,0 +1,5 @@
+namespace: foo
+env: ci
+region: rs
+kind: sp
+owner: sp_team

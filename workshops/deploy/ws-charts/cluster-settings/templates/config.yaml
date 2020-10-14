@@ -1,0 +1,86 @@
+---
+apiVersion: settings.k8s.io/v1alpha1
+kind: PodPreset
+metadata:
+  name: ot-env
+  namespace: {{ .Values.namespace }}
+spec:
+  volumeMounts:
+    - mountPath: /mnt/ot/sandbox
+      name: sandbox
+  volumes:
+    - name: sandbox
+      emptyDir: {}
+  env:
+    - name: LOGGING_REDIS_URLS
+      value: logging-qa-{{ $.Values.region }}.otenv.com
+    - name: METRICS_STATSD_URL
+      value: statsd-qa-{{ $.Values.region }}.otenv.com
+    - name: EDA_FEEDER_URLS
+      value: eda-kafka-feeder-{{ $.Values.env }}-{{ $.Values.region }}-1.otenv.com:9092,eda-kafka-feeder-{{ $.Values.env }}-{{ $.Values.region }}-2.otenv.com:9092,eda-kafka-feeder-{{ $.Values.env }}-{{ $.Values.region }}-3.otenv.com:9092
+    - name: EDA_CENTRAL_URLS
+      value: eda-kafka-central-{{ $.Values.env }}-{{ $.Values.region }}-1.otenv.com:9092,eda-kafka-central-{{ $.Values.env }}-{{ $.Values.region }}-2.otenv.com:9092,eda-kafka-central-{{ $.Values.env }}-{{ $.Values.region }}-3.otenv.com:9092
+    - name: LOGGING_KAFKA_URLS
+      value: logging-kafka-qa-{{ $.Values.region }}-1.otenv.com:9092,logging-kafka-qa-{{ $.Values.region }}-2.otenv.com:9092,logging-kafka-qa-{{ $.Values.region }}-3.otenv.com:9092
+    - name: METRICS_GRAPHITE_URL
+      value: carbon-qa-{{ $.Values.region }}.otenv.com
+    - name: CM_VAULT_URL
+      value: https://vault-server-{{ $.Values.env }}-{{ $.Values.region }}.otenv.com/v1/
+    - name: CM_HEIMDALL_URL
+      value: https://heimdall-{{ $.Values.env }}-{{ $.Values.region }}.otenv.com
+    - name: OT_ENV
+      value: {{ $.Values.env }}-{{ $.Values.region }}
+    - name: OT_ENV_LOCATION
+      value: {{ $.Values.region }}
+    - name: OT_ENV_TYPE
+      value: {{ $.Values.env }}
+    - name: OT_ENV_SHORT
+      value: {{ $.Values.env }}-{{ $.Values.region }}
+    - name: MESOS_SANDBOX
+      value: /mnt/ot/sandbox
+    - name: OT_DISCO_INIT_URL
+      value: http://discovery-{{ $.Values.env }}-{{ $.Values.region }}.otenv.com
+    - name: OT_SPRING_BOOT_ADMIN_URL
+      value: http://spring-boot-admin.infra
+    - name: IS_KUBERNETES
+      value: "true"
+    - name: K8S_CLUSTER_NAME
+      value: {{ $.Values.kind }}-{{ $.Values.env }}-{{ $.Values.region }}
+    - name: K8S_POD_IP
+      valueFrom:
+        fieldRef:
+          fieldPath: status.podIP
+    - name: K8S_POD_NAME
+      valueFrom:
+        fieldRef:
+          fieldPath: metadata.name
+    - name: K8S_NODE_HOST
+      valueFrom:
+        fieldRef:
+          fieldPath: spec.nodeName
+    - name: K8S_NODE_IP
+      valueFrom:
+        fieldRef:
+          fieldPath: status.hostIP
+    - name: TASK_HOST
+      valueFrom:
+        fieldRef:
+          fieldPath: status.hostIP
+    - name: K8S_NAMESPACE
+      valueFrom:
+        fieldRef:
+          fieldPath: metadata.namespace
+    - name: K8S_SERVICE_ACCOUNT
+      valueFrom:
+        fieldRef:
+          fieldPath: spec.serviceAccountName
+    - name: K8S_POD_ID
+      valueFrom:
+        fieldRef:
+          fieldPath: metadata.uid
+    - name: K8S_TRAMPOLINE_URL
+      value: http://trampoline.infra
+  selector:
+    matchLabels:
+      preset: basic
+
