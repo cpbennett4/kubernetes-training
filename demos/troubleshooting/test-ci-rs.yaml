@@ -3,7 +3,6 @@ replicaCount: 1
 namespace: infra
 otmetaComponent: demo
 needsExternalName: "no"
-canary: demo-server
 
 image:
   registry: docker.otenv.com
@@ -17,7 +16,6 @@ ports:
 
 credentialsManagement:
   enabled: true
-  skipServiceAccountCreation: true
 resourcesReq:
   memory: 1000Mi
   cpu: 500m
