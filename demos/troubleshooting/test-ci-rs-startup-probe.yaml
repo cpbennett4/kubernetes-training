@@ -1,0 +1,24 @@
+# How many pods to deploy
+replicaCount: 1
+namespace: infra
+otmetaComponent: demo
+needsExternalName: "no"
+
+image:
+  registry: docker.otenv.com
+  repository: demo-server
+
+# Service will be listening to the same ports as the app
+ports:
+  - http
+  - jmx
+  - actuator
+
+credentialsManagement:
+  enabled: true
+resourcesReq:
+  memory: 1000Mi
+  cpu: 500m
+
+startup:
+  path: /foobar
