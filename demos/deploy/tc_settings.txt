@@ -1,0 +1,3 @@
+workshops/deploy/test-ci-rs-tc.yaml
+0.0.38-SNAPSHOT-149
+--namespace ws-cflippin --set namespace=ws-cflippin
