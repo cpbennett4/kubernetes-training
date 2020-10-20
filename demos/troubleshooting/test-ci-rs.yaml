@@ -16,6 +16,7 @@ ports:
 
 credentialsManagement:
   enabled: true
+  serviceManifestName: demo-server
 resourcesReq:
   memory: 1000Mi
   cpu: 500m
