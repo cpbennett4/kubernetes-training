@@ -13,13 +13,13 @@ helm template --set namespace="ws-$username" --set kind=test \
 echo "Hit enter to generate objects with helm"
 read -r
 helm template -f ./test-ci-rs.yaml \
-	 --set namespace="ws-$username" --version=0.0 --set image.tag=0.0.38-SNAPSHOT-149 \
+	 --set namespace="ws-$username" --version=0.0 --set image.tag=demo-server-with-cm \
 	 --set clusterType=test --set environment=ci --set region=rs \
 	 demo-server ot/service-base | less
 
 echo "Hit enter to do the deploy"
 read -r
 helm upgrade --timeout 10m --atomic --install --debug --namespace "ws-$username" \
-	 -f ./test-ci-rs.yaml --version=0.0 --set image.tag=0.0.38-SNAPSHOT-149 \
+	 -f ./test-ci-rs.yaml --version=0.0 --set image.tag=demo-server-with-cm \
 	 --set namespace="ws-$username" --set clusterType=test --set environment=ci \
 	 --set region=rs demo-server ot/service-base

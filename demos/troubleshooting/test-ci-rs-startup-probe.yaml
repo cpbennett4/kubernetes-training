@@ -6,7 +6,7 @@ needsExternalName: "no"
 
 image:
   registry: docker.otenv.com
-  repository: demo-server
+  repository: k8s-training
 
 # Service will be listening to the same ports as the app
 ports:
@@ -16,6 +16,7 @@ ports:
 
 credentialsManagement:
   enabled: true
+  serviceManifestName: demo-server
 resourcesReq:
   memory: 1000Mi
   cpu: 500m
