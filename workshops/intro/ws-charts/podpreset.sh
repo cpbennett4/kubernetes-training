@@ -17,7 +17,7 @@ if [[ -z ${name} ]]; then
   exit 1
 fi
 if [[ -f ~/.workshop ]]; then
-  echo "override name" 1>2
+  echo "override name" 1>&2
   name=$(cat ~/.workshop)
 fi
 

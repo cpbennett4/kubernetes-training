@@ -18,7 +18,7 @@ if [[ -z ${name} ]]; then
 fi
 # emergency override
 if [[ -f ~/.workshop ]]; then
-  echo "override name" 1>2
+  echo "override name" 1>&2
   name=$(cat ~/.workshop)
 fi
 echo "Welcome name = $name" 1>&2
