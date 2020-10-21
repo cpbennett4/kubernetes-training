@@ -16,6 +16,10 @@ if [[ -z ${name} ]]; then
   echo "No name provided - whoami didnt work."  1>&2
   exit 1
 fi
+if [[ -f ~/.workshop ]]; then
+  echo "override name" 1>2
+  name=$(cat ~/.workshop)
+fi
 
 release=ot-env
 chart=cluster-settings
