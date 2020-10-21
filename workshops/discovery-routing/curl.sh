@@ -5,8 +5,8 @@ if [[ -z ${name} ]]; then
   echo "No name provided - whoami didnt work."  1>&2
   exit 1
 fi
-# emergency override
-if [[ -f "~/.workshop" ]]; then
+if [[ -f ~/.workshop ]]; then
+  echo "override name"
   name=$(cat ~/.workshop)
 fi
 echo "launching curl for you ${name} - note this only works for admins on normal clusters"

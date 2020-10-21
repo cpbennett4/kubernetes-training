@@ -6,10 +6,10 @@ if [[ -z ${name} ]]; then
   exit 1
 fi
 # emergency override
-if [[ -f "~/.workshop" ]]; then
+if [[ -f ~/.workshop ]]; then
+  echo "override name"
   name=$(cat ~/.workshop)
 fi
-
 echo "launching port-forward for you ${name}"
 
 namespace=ws-${name}
