@@ -9,7 +9,7 @@ if [[ -f ~/.workshop ]]; then
   name=$(cat ~/.workshop)
 fi
 
-helm upgrade --atomic --install --debug --namespace "ws-$name" \
+helm upgrade --timeout 3m --atomic --install --debug --namespace "ws-$name" \
 	 -f ./test-ci-rs.yaml --version 0.0 --set image.tag=foo \
 	 --set namespace=ws-cflippin --set clusterType=test \
 	 --set environment=ci --set region=rs demo-server ot/service-base
