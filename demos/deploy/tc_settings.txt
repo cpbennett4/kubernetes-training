@@ -1,3 +1,5 @@
+VCS Root
+Name: kubernetes-demo
 demos/deploy/test-ci-rs-tc.yaml
 demo-server-with-cm
 --namespace ws-cflippin --set namespace=ws-cflippin
