@@ -15,8 +15,7 @@ ports:
   - actuator
 
 credentialsManagement:
-  enabled: true
-  skipServiceAccountCreation: true
+  enabled: false
 resourcesReq:
   memory: 1000Mi
   cpu: 500m
