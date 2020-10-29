@@ -14,7 +14,7 @@ echo "Adding ot helm repo"
 helm repo add ot https://artifactory.otenv.com/artifactory/helm
 helm repo update
 
-echo "Ensuring namespace and podpresets exist"
+echo "Ensuring namespace exists"
 helm template --set namespace="ws-$name" --set kind=test \
 	 --set env=ci --set region=rs ./ws-charts/cluster-settings \
 	 | kubectl -n "ws-$name" apply -f -
